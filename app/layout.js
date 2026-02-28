@@ -42,6 +42,11 @@ export const metadata = {
     shortcut: "/logo.png",
     apple: "/logo.png",
   },
+  verification: {
+    other: {
+      "naver-site-verification": ["ff789c99a3f7a3b782dc5dc921742aba17c02fbf"],
+    },
+  },
 };
 
 export const viewport = {
