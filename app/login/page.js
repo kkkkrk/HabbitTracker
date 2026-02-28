@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useTheme } from 'next-themes'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const inputStyle = {
     width: '100%', padding: '11px 14px', fontSize: '14px',
@@ -12,6 +14,9 @@ const inputStyle = {
 }
 
 export default function LoginPage() {
+    const { theme, systemTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => setMounted(true), [])
     const router = useRouter()
     const [tab, setTab] = useState('login') // 'login' | 'register'
     const [username, setUsername] = useState('')
@@ -73,7 +78,14 @@ export default function LoginPage() {
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px',
             }}>
                 {/* 로고 */}
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                    <img
+                        src="/logo.png"
+                        alt="Logo"
+                        style={{
+                            width: '48px', height: '48px', borderRadius: '12px', marginBottom: '12px'
+                        }}
+                    />
                     <h1 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.4px', marginBottom: '4px' }}>
                         Habit Tracker
                     </h1>
@@ -128,9 +140,10 @@ export default function LoginPage() {
 
                             <input
                                 type="email"
-                                placeholder="이메일 (선택)"
+                                placeholder="이메일 (필수)"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
+                                required
                                 style={inputStyle}
                                 onFocus={e => e.target.style.borderColor = 'var(--accent)'}
                                 onBlur={e => e.target.style.borderColor = 'var(--border)'}
@@ -205,6 +218,14 @@ export default function LoginPage() {
                     >
                         {loading ? '처리 중...' : tab === 'login' ? '로그인' : '회원가입'}
                     </button>
+
+                    {tab === 'login' && (
+                        <div style={{ textAlign: 'center', marginTop: '4px' }}>
+                            <Link href="/forgot-password" style={{ fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'none' }}>
+                                비밀번호를 잊으셨나요?
+                            </Link>
+                        </div>
+                    )}
                 </form>
             </div>
         </div>

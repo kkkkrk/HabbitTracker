@@ -9,8 +9,8 @@ export async function POST(request) {
         await connectMongoose()
         const { username, password, email, phone, smsConsent } = await request.json()
 
-        if (!username?.trim() || !password) {
-            return NextResponse.json({ error: '아이디와 비밀번호를 입력해주세요.' }, { status: 400 })
+        if (!username?.trim() || !password || !email?.trim()) {
+            return NextResponse.json({ error: '아이디, 비밀번호, 그리고 이메일을 입력해주세요.' }, { status: 400 })
         }
         if (username.length < 3) {
             return NextResponse.json({ error: '아이디는 3자 이상이어야 합니다.' }, { status: 400 })

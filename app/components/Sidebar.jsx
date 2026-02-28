@@ -22,6 +22,7 @@ export default function Sidebar({ activeTab, onTabChange, todayLabel }) {
             {/* 로고 */}
             <div style={{ padding: '0 24px 32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <img src="/logo.png" alt="Logo" style={{ width: '24px', height: '24px', borderRadius: '6px' }} />
                     <span style={{ fontSize: '18px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.3px' }}>
                         Habit Tracker
                     </span>

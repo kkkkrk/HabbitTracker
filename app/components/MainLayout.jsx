@@ -29,7 +29,9 @@ export default function MainLayout({ allHabitData, todayLabel, userId, userName,
             }}>
                 {/* 로고 */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-
+                    <img src="/logo.png" alt="Logo" style={{
+                        width: '24px', height: '24px', borderRadius: '6px'
+                    }} />
                     <span style={{ fontSize: '17px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.3px' }}>
                         Habit Tracker
                     </span>

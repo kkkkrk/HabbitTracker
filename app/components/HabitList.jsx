@@ -32,6 +32,7 @@ export default function HabitList({ allHabitData = [], userId }) {
     const router = useRouter()
     const [habits, setHabits] = useState([])
     const [checkedToday, setCheckedToday] = useState({})
+    const [checkedYesterday, setCheckedYesterday] = useState({})
     const [loadingCheck, setLoadingCheck] = useState({})
     const [showInput, setShowInput] = useState(false)
     const [newHabitName, setNewHabitName] = useState('')
@@ -45,6 +46,7 @@ export default function HabitList({ allHabitData = [], userId }) {
     const [habitStats, setHabitStats] = useState({})
     const [statsLoading, setStatsLoading] = useState({})
     const [deleteTarget, setDeleteTarget] = useState(null)
+    const [checkTarget, setCheckTarget] = useState(null)
     const [draggedIdx, setDraggedIdx] = useState(null)
 
     const DAY_LABELS = ['일', '월', '화', '수', '목', '금', '토']
@@ -64,7 +66,11 @@ export default function HabitList({ allHabitData = [], userId }) {
     const loadTodayChecks = async () => {
         try {
             const res = await fetch(`/api/habit/today?userId=${userId}`)
-            if (res.ok) setCheckedToday(await res.json())
+            if (res.ok) {
+                const data = await res.json()
+                setCheckedToday(data.today || {})
+                setCheckedYesterday(data.yesterday || {})
+            }
         } catch (e) { }
     }
 
@@ -91,16 +97,45 @@ export default function HabitList({ allHabitData = [], userId }) {
         finally { setAddLoading(false) }
     }
 
-    const handleCheck = async (habit) => {
+    const handleCheck = (habit) => {
+        if (!habit.createdAt) {
+            submitCheck(habit, 'today')
+            return
+        }
+
+        // KST(UTC+9) 기준 오늘 자정 계산
+        const now = new Date()
+        const kstOffset = 9 * 60 * 60 * 1000
+        const todayKST = new Date(Math.floor((now.getTime() + kstOffset) / 86400000) * 86400000 - kstOffset)
+
+        // habit.createdAt 도 KST 오프셋 적용하여 비교
+        const createdKST = new Date(new Date(habit.createdAt).getTime() + kstOffset)
+
+        const isCreatedBeforeToday = createdKST < todayKST
+        const isNotCheckedYesterday = (checkedYesterday[habit.name] || 0) === 0
+
+        if (isCreatedBeforeToday && isNotCheckedYesterday) {
+            setCheckTarget(habit)
+        } else {
+            submitCheck(habit, 'today')
+        }
+    }
+
+    const submitCheck = async (habit, targetDate) => {
+        setCheckTarget(null)
         setLoadingCheck(prev => ({ ...prev, [habit._id]: true }))
         try {
             const res = await fetch('/api/habit', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: userId, habitName: habit.name }),
+                body: JSON.stringify({ userId: userId, habitName: habit.name, targetDate }),
             })
             const data = await res.json()
             if (res.ok) {
-                setCheckedToday(prev => ({ ...prev, [habit.name]: data.count }))
+                if (targetDate === 'today') {
+                    setCheckedToday(prev => ({ ...prev, [habit.name]: data.count }))
+                } else {
+                    setCheckedYesterday(prev => ({ ...prev, [habit.name]: data.count }))
+                }
                 router.refresh()
                 if (expandedHabit[habit._id]) loadHabitStats(habit, true)
             }
@@ -179,6 +214,43 @@ export default function HabitList({ allHabitData = [], userId }) {
                                 background: 'var(--red)', color: '#FFFFFF',
                                 border: 'none', borderRadius: '12px', cursor: 'pointer',
                             }}>삭제</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* ── 어제 체크 모달 ── */}
+            {checkTarget && (
+                <div onClick={() => setCheckTarget(null)} style={{
+                    position: 'fixed', inset: 0, zIndex: 9999,
+                    background: 'rgba(0,0,0,0.65)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(4px)',
+                }}>
+                    <div onClick={e => e.stopPropagation()} style={{
+                        background: 'var(--surface-hover)', border: '1px solid var(--border)',
+                        borderRadius: '20px', padding: '32px 28px', width: '320px',
+                        boxShadow: '0 24px 48px rgba(0,0,0,0.6)',
+                        display: 'flex', flexDirection: 'column', gap: '20px',
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '40px', marginBottom: '12px' }}>🤔</div>
+                            <p style={{ color: 'var(--text)', fontSize: '16px', fontWeight: 700, marginBottom: '6px' }}>어제 기록 확인</p>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.6 }}>
+                                <span style={{ color: 'var(--text)', fontWeight: 600 }}>"{checkTarget.name}"</span><br />
+                                어제는 완료하지 못하셨네요.<br />이 체크를 어제 기록으로 올릴까요?
+                            </p>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <button onClick={() => submitCheck(checkTarget, 'yesterday')} style={{
+                                width: '100%', padding: '12px', fontSize: '14px', fontWeight: 600,
+                                background: '#FF6B35', color: '#FFFFFF',
+                                border: 'none', borderRadius: '12px', cursor: 'pointer',
+                            }}>어제 완료로 체크</button>
+                            <button onClick={() => submitCheck(checkTarget, 'today')} style={{
+                                width: '100%', padding: '12px', fontSize: '14px', fontWeight: 600,
+                                background: 'transparent', color: 'var(--text)',
+                                border: '1px solid var(--border)', borderRadius: '12px', cursor: 'pointer',
+                            }}>오늘 완료로 체크</button>
                         </div>
                     </div>
                 </div>
