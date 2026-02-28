@@ -19,7 +19,7 @@ export default function MainLayout({ allHabitData, todayLabel, userId, userName,
     useEffect(() => setMounted(true), [])
 
     return (
-        <div style={{ minHeight: '100vh', background: 'var(--bg)', transition: 'background 0.3s', overflowX: 'hidden', width: '100%' }}>
+        <div style={{ minHeight: '100vh', background: 'var(--bg)', transition: 'background 0.3s' }}>
             {/* ── 상단 네비바 ── */}
             <header className="responsive-header" style={{
                 position: 'sticky', top: 0, zIndex: 100,

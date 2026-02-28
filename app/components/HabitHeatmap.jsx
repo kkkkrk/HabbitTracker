@@ -88,13 +88,13 @@ export default function HabitHeatmap({ data, compact = false, accentColor }) {
                 </div>
             )}
 
-            <div ref={scrollRef} style={{ display: 'inline-block', overflowX: 'auto', maxWidth: '100%' }}>
+            <div ref={scrollRef} style={{ display: 'block', overflowX: 'auto' }}>
                 {!compact && (
                     <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '12px' }}>
                         전체 활동 기록
                     </p>
                 )}
-                <div style={{ display: 'flex', gap: '6px' }}>
+                <div style={{ display: 'flex', gap: '6px', minWidth: 'max-content' }}>
                     {!compact && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: gap + 'px', marginTop: '18px' }}>
                             {DAYS.map((d, i) => (
