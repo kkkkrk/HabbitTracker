@@ -19,7 +19,7 @@ export default function MainLayout({ allHabitData, todayLabel, userId, userName,
     useEffect(() => setMounted(true), [])
 
     return (
-        <div style={{ minHeight: '100vh', background: 'var(--bg)', transition: 'background 0.3s' }}>
+        <div style={{ minHeight: '100vh', background: 'var(--bg)', transition: 'background 0.3s', overflowX: 'hidden', width: '100%' }}>
             {/* ── 상단 네비바 ── */}
             <header className="responsive-header" style={{
                 position: 'sticky', top: 0, zIndex: 100,
@@ -150,11 +150,6 @@ export default function MainLayout({ allHabitData, todayLabel, userId, userName,
             <main className="responsive-main" style={{ maxWidth: '960px', margin: '0 auto' }}>
                 {activeTab === 'dashboard' && (
                     <>
-                        <div style={{ marginBottom: '36px' }}>
-                            <h1 style={{ fontSize: '36px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.5px' }}>
-                                내 습관
-                            </h1>
-                        </div>
                         <HabitList allHabitData={allHabitData} userId={userId} />
                     </>
                 )}
