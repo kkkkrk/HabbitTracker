@@ -66,20 +66,14 @@ export default function StatsView({ userId }) {
     const fetchAll = async () => {
         setLoading(true)
         try {
-            const res = await fetch(`/api/habit/summary?userId=${userId}`)
+            // 단 1번의 API 호출로 summary + 차트 데이터 모두 수신
+            const res = await fetch(`/api/habit/all-stats?userId=${userId}`)
             if (!res.ok) return
             const data = await res.json()
             setSummary(data)
-            // 모든 습관 stats 병렬 로드 → 그래프 즉시 표시
-            const statsResults = await Promise.all(
-                data.map(item =>
-                    fetch(`/api/habit/stats?userId=${userId}&habitName=${encodeURIComponent(item.habitName)}`)
-                        .then(r => r.ok ? r.json() : [])
-                        .then(logs => ({ id: item.habitId, logs }))
-                )
-            )
+            // logs를 habitStats 맵으로 변환
             const statsMap = {}
-            statsResults.forEach(({ id, logs }) => { statsMap[id] = logs })
+            data.forEach(item => { statsMap[item.habitId] = item.logs })
             setHabitStats(statsMap)
         } catch (e) { console.error(e) }
         finally { setLoading(false) }
@@ -279,7 +273,7 @@ export default function StatsView({ userId }) {
                 }}>
                     <div style={{ fontSize: '56px', marginBottom: '16px' }}>📊</div>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.8 }}>
-                        아직 습관 데이터가 없어요.<br />대시보드에서 습관을 추가해보세요!
+                        아직 습관 데이터가 없어요.<br /> 대시보드에서 습관을 추가해보세요!
                     </p>
                 </div>
             ) : (
