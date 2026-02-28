@@ -297,7 +297,7 @@ export default function HabitList({ allHabitData = [], userId }) {
             <div style={{
                 background: 'var(--surface)', border: '1px solid var(--border)',
                 borderRadius: '16px', padding: '24px 28px', marginBottom: '32px',
-                overflowX: 'auto', transition: 'background 0.3s'
+                overflowX: 'auto', WebkitOverflowScrolling: 'touch', transition: 'background 0.3s'
             }}>
                 <HabitHeatmap data={allHabitData} compact={false} />
             </div>
@@ -634,7 +634,12 @@ export default function HabitList({ allHabitData = [], userId }) {
                                     {statsLoading[habit._id] ? (
                                         <p style={{ color: 'var(--text-tertiary)', fontSize: '12px' }}>불러오는 중...</p>
                                     ) : (
-                                        <div style={{ overflowX: 'auto' }}>
+                                        <div style={{
+                                            overflowX: 'auto',
+                                            WebkitOverflowScrolling: 'touch',
+                                            width: '100%',
+                                            cursor: 'grab',
+                                        }}>
                                             <HabitHeatmap data={habitStats[habit._id] || []} compact={true} accentColor={color} />
                                         </div>
                                     )}
