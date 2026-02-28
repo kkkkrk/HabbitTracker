@@ -627,6 +627,7 @@ export default function HabitList({ allHabitData = [], userId }) {
                                     marginTop: '8px', padding: '14px 16px',
                                     background: 'var(--surface-hover)', borderRadius: '12px',
                                     border: `1px solid ${color}33`,
+                                    overflow: 'hidden',
                                 }}>
                                     <p style={{ fontSize: '11px', color: color, fontWeight: 600, marginBottom: '10px', letterSpacing: '0.04em' }}>
                                         최근 1년 · 총 {(habitStats[habit._id] || []).reduce((s, d) => s + d.count, 0)}회

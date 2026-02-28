@@ -88,7 +88,7 @@ export default function HabitHeatmap({ data, compact = false, accentColor }) {
                 </div>
             )}
 
-            <div ref={scrollRef} style={{ display: 'inline-block', overflowX: 'auto', maxWidth: '100%' }}>
+            <div ref={scrollRef} style={{ display: 'block', overflowX: 'auto', width: '100%', maxWidth: '100%' }}>
                 {!compact && (
                     <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '12px' }}>
                         전체 활동 기록
