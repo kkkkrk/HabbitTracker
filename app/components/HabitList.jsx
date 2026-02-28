@@ -270,7 +270,7 @@ export default function HabitList({ allHabitData = [], userId }) {
                     d.setTime(d.getTime() - 86400000)
                 }
                 return (
-                    <div className="responsive-stats-grid" style={{ display: 'grid', gap: '16px', marginBottom: '32px' }}>
+                    <div className="responsive-stats-grid desktop-only" style={{ display: 'grid', gap: '16px', marginBottom: '32px' }}>
                         {[
                             { label: '오늘 완료', value: `${doneCount} / ${habits.length}`, sub: '개 습관', color: '#10B981' },
                             { label: '누적 기록', value: totalCount.toLocaleString(), sub: '회 완료', color: '#3B82F6' },
@@ -294,356 +294,356 @@ export default function HabitList({ allHabitData = [], userId }) {
                     </div>
                 )
             })()}
-                <div style={{
-                    background: 'var(--surface)', border: '1px solid var(--border)',
-                    borderRadius: '16px', padding: '24px 28px', marginBottom: '32px',
-                    overflowX: 'auto', transition: 'background 0.3s'
+            <div style={{
+                background: 'var(--surface)', border: '1px solid var(--border)',
+                borderRadius: '16px', padding: '24px 28px', marginBottom: '32px',
+                overflowX: 'auto', transition: 'background 0.3s'
+            }}>
+                <HabitHeatmap data={allHabitData} compact={false} />
+            </div>
+
+            {/* ── 습관 섹션 헤더 ── */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div>
+                    <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.3px' }}>오늘의 습관</h2>
+                    <p style={{ fontSize: '13px', color: 'var(--text-tertiary)', marginTop: '2px' }}>카드를 클릭하면 체크됩니다</p>
+                </div>
+                <button
+                    onClick={() => { resetAddForm(); setShowInput(true) }}
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: '6px',
+                        padding: '8px 16px', borderRadius: '10px',
+                        background: '#FF6B35', color: '#FFFFFF',
+                        border: 'none', fontSize: '14px', fontWeight: 600,
+                        cursor: 'pointer', transition: 'opacity 0.2s',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                >
+                    + 습관 추가
+                </button>
+            </div>
+
+            {/* ── 습관 추가 모달 ── */}
+            {showInput && (
+                <div onClick={() => { resetAddForm(); setShowInput(false) }} style={{
+                    position: 'fixed', inset: 0, zIndex: 9999,
+                    background: 'rgba(0,0,0,0.65)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(4px)',
                 }}>
-                    <HabitHeatmap data={allHabitData} compact={false} />
-                </div>
-
-                {/* ── 습관 섹션 헤더 ── */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                    <div>
-                        <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.3px' }}>오늘의 습관</h2>
-                        <p style={{ fontSize: '13px', color: 'var(--text-tertiary)', marginTop: '2px' }}>카드를 클릭하면 체크됩니다</p>
-                    </div>
-                    <button
-                        onClick={() => { resetAddForm(); setShowInput(true) }}
-                        style={{
-                            display: 'flex', alignItems: 'center', gap: '6px',
-                            padding: '8px 16px', borderRadius: '10px',
-                            background: '#FF6B35', color: '#FFFFFF',
-                            border: 'none', fontSize: '14px', fontWeight: 600,
-                            cursor: 'pointer', transition: 'opacity 0.2s',
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-                        onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                    >
-                        + 습관 추가
-                    </button>
-                </div>
-
-                {/* ── 습관 추가 모달 ── */}
-                {showInput && (
-                    <div onClick={() => { resetAddForm(); setShowInput(false) }} style={{
-                        position: 'fixed', inset: 0, zIndex: 9999,
-                        background: 'rgba(0,0,0,0.65)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        backdropFilter: 'blur(4px)',
+                    <div onClick={e => e.stopPropagation()} style={{
+                        background: 'var(--surface-hover)', border: '1px solid var(--border)',
+                        borderRadius: '20px', padding: '32px 28px', width: '400px', maxWidth: '92vw',
+                        boxShadow: '0 24px 48px rgba(0,0,0,0.6)',
+                        display: 'flex', flexDirection: 'column', gap: '22px',
                     }}>
-                        <div onClick={e => e.stopPropagation()} style={{
-                            background: 'var(--surface-hover)', border: '1px solid var(--border)',
-                            borderRadius: '20px', padding: '32px 28px', width: '400px', maxWidth: '92vw',
-                            boxShadow: '0 24px 48px rgba(0,0,0,0.6)',
-                            display: 'flex', flexDirection: 'column', gap: '22px',
-                        }}>
-                            {/* 모달 헤더 */}
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: '36px', marginBottom: '8px' }}>✨</div>
-                                <p style={{ color: 'var(--text)', fontSize: '18px', fontWeight: 700 }}>새 습관 추가</p>
-                                <p style={{ color: 'var(--text-tertiary)', fontSize: '13px', marginTop: '4px' }}>습관의 세부 설정을 해주세요</p>
-                            </div>
+                        {/* 모달 헤더 */}
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '36px', marginBottom: '8px' }}>✨</div>
+                            <p style={{ color: 'var(--text)', fontSize: '18px', fontWeight: 700 }}>새 습관 추가</p>
+                            <p style={{ color: 'var(--text-tertiary)', fontSize: '13px', marginTop: '4px' }}>습관의 세부 설정을 해주세요</p>
+                        </div>
 
-                            {/* 습관 이름 */}
-                            <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>습관 이름</label>
-                                <input autoFocus type="text" value={newHabitName}
-                                    onChange={e => setNewHabitName(e.target.value)}
-                                    placeholder="예: 물 마시기, 운동하기"
-                                    maxLength={30}
+                        {/* 습관 이름 */}
+                        <div>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>습관 이름</label>
+                            <input autoFocus type="text" value={newHabitName}
+                                onChange={e => setNewHabitName(e.target.value)}
+                                placeholder="예: 물 마시기, 운동하기"
+                                maxLength={30}
+                                style={{
+                                    width: '100%', padding: '12px 14px', fontSize: '15px',
+                                    background: 'var(--bg)', border: '1px solid var(--border)',
+                                    borderRadius: '12px', color: 'var(--text)', outline: 'none',
+                                    boxSizing: 'border-box',
+                                    transition: 'border-color 0.2s',
+                                }}
+                                onFocus={e => e.target.style.borderColor = '#FF6B35'}
+                                onBlur={e => e.target.style.borderColor = 'var(--border)'}
+                            />
+                        </div>
+
+                        {/* 주기 선택 */}
+                        <div>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>주기</label>
+                            <div style={{ display: 'flex', gap: '0', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border)' }}>
+                                {[{ key: 'daily', label: '매일' }, { key: 'weekly', label: '매주' }, { key: 'monthly', label: '매월' }].map(opt => (
+                                    <button key={opt.key} onClick={() => setFrequency(opt.key)}
+                                        style={{
+                                            flex: 1, padding: '10px 0', fontSize: '14px', fontWeight: 600,
+                                            background: frequency === opt.key ? '#FF6B35' : 'var(--bg)',
+                                            color: frequency === opt.key ? '#FFFFFF' : 'var(--text-secondary)',
+                                            border: 'none', cursor: 'pointer',
+                                            transition: 'all 0.2s',
+                                        }}
+                                    >{opt.label}</button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* 목표 횟수 */}
+                        <div>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>
+                                목표 횟수 <span style={{ color: 'var(--text-tertiary)', fontWeight: 400 }}>({frequency === 'daily' ? '하루' : frequency === 'weekly' ? '일주일' : '한달'}에)</span>
+                            </label>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <button onClick={() => setTargetCount(prev => Math.max(1, prev - 1))}
                                     style={{
-                                        width: '100%', padding: '12px 14px', fontSize: '15px',
+                                        width: '40px', height: '40px', borderRadius: '10px',
                                         background: 'var(--bg)', border: '1px solid var(--border)',
-                                        borderRadius: '12px', color: 'var(--text)', outline: 'none',
-                                        boxSizing: 'border-box',
-                                        transition: 'border-color 0.2s',
-                                    }}
-                                    onFocus={e => e.target.style.borderColor = '#FF6B35'}
-                                    onBlur={e => e.target.style.borderColor = 'var(--border)'}
-                                />
+                                        color: 'var(--text)', fontSize: '20px', fontWeight: 700,
+                                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    }}>−</button>
+                                <span style={{ fontSize: '24px', fontWeight: 700, color: '#FF6B35', minWidth: '40px', textAlign: 'center' }}>{targetCount}</span>
+                                <button onClick={() => setTargetCount(prev => Math.min(99, prev + 1))}
+                                    style={{
+                                        width: '40px', height: '40px', borderRadius: '10px',
+                                        background: 'var(--bg)', border: '1px solid var(--border)',
+                                        color: 'var(--text)', fontSize: '20px', fontWeight: 700,
+                                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    }}>+</button>
+                                <span style={{ fontSize: '13px', color: 'var(--text-tertiary)' }}>회</span>
                             </div>
+                        </div>
 
-                            {/* 주기 선택 */}
+                        {/* 활동 요일 (daily일 때만) */}
+                        {frequency === 'daily' && (
                             <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>주기</label>
-                                <div style={{ display: 'flex', gap: '0', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border)' }}>
-                                    {[{ key: 'daily', label: '매일' }, { key: 'weekly', label: '매주' }, { key: 'monthly', label: '매월' }].map(opt => (
-                                        <button key={opt.key} onClick={() => setFrequency(opt.key)}
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>활동 요일</label>
+                                <div style={{ display: 'flex', gap: '6px' }}>
+                                    {DAY_LABELS.map((label, idx) => (
+                                        <button key={idx} onClick={() => toggleDay(idx)}
                                             style={{
-                                                flex: 1, padding: '10px 0', fontSize: '14px', fontWeight: 600,
-                                                background: frequency === opt.key ? '#FF6B35' : 'var(--bg)',
-                                                color: frequency === opt.key ? '#FFFFFF' : 'var(--text-secondary)',
-                                                border: 'none', cursor: 'pointer',
-                                                transition: 'all 0.2s',
-                                            }}
-                                        >{opt.label}</button>
+                                                flex: 1, padding: '10px 0', fontSize: '13px', fontWeight: 600,
+                                                borderRadius: '10px',
+                                                background: activeDays.includes(idx) ? '#FF6B35' : 'var(--bg)',
+                                                color: activeDays.includes(idx) ? '#FFFFFF' : 'var(--text-tertiary)',
+                                                border: `1px solid ${activeDays.includes(idx) ? '#FF6B35' : 'var(--border)'}`,
+                                                cursor: 'pointer', transition: 'all 0.15s',
+                                            }}>{label}</button>
                                     ))}
                                 </div>
                             </div>
+                        )}
 
-                            {/* 목표 횟수 */}
+                        {/* 시작 요일 (weekly일 때만) */}
+                        {frequency === 'weekly' && (
                             <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>
-                                    목표 횟수 <span style={{ color: 'var(--text-tertiary)', fontWeight: 400 }}>({frequency === 'daily' ? '하루' : frequency === 'weekly' ? '일주일' : '한달'}에)</span>
-                                </label>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                    <button onClick={() => setTargetCount(prev => Math.max(1, prev - 1))}
-                                        style={{
-                                            width: '40px', height: '40px', borderRadius: '10px',
-                                            background: 'var(--bg)', border: '1px solid var(--border)',
-                                            color: 'var(--text)', fontSize: '20px', fontWeight: 700,
-                                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        }}>−</button>
-                                    <span style={{ fontSize: '24px', fontWeight: 700, color: '#FF6B35', minWidth: '40px', textAlign: 'center' }}>{targetCount}</span>
-                                    <button onClick={() => setTargetCount(prev => Math.min(99, prev + 1))}
-                                        style={{
-                                            width: '40px', height: '40px', borderRadius: '10px',
-                                            background: 'var(--bg)', border: '1px solid var(--border)',
-                                            color: 'var(--text)', fontSize: '20px', fontWeight: 700,
-                                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        }}>+</button>
-                                    <span style={{ fontSize: '13px', color: 'var(--text-tertiary)' }}>회</span>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>주 시작 요일</label>
+                                <div style={{ display: 'flex', gap: '6px' }}>
+                                    {DAY_LABELS.map((label, idx) => (
+                                        <button key={idx} onClick={() => setStartDay(idx)}
+                                            style={{
+                                                flex: 1, padding: '10px 0', fontSize: '13px', fontWeight: 600,
+                                                borderRadius: '10px',
+                                                background: startDay === idx ? '#3B82F6' : 'var(--bg)',
+                                                color: startDay === idx ? '#FFFFFF' : 'var(--text-tertiary)',
+                                                border: `1px solid ${startDay === idx ? '#3B82F6' : 'var(--border)'}`,
+                                                cursor: 'pointer', transition: 'all 0.15s',
+                                            }}>{label}</button>
+                                    ))}
                                 </div>
                             </div>
+                        )}
 
-                            {/* 활동 요일 (daily일 때만) */}
-                            {frequency === 'daily' && (
-                                <div>
-                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>활동 요일</label>
-                                    <div style={{ display: 'flex', gap: '6px' }}>
-                                        {DAY_LABELS.map((label, idx) => (
-                                            <button key={idx} onClick={() => toggleDay(idx)}
-                                                style={{
-                                                    flex: 1, padding: '10px 0', fontSize: '13px', fontWeight: 600,
-                                                    borderRadius: '10px',
-                                                    background: activeDays.includes(idx) ? '#FF6B35' : 'var(--bg)',
-                                                    color: activeDays.includes(idx) ? '#FFFFFF' : 'var(--text-tertiary)',
-                                                    border: `1px solid ${activeDays.includes(idx) ? '#FF6B35' : 'var(--border)'}`,
-                                                    cursor: 'pointer', transition: 'all 0.15s',
-                                                }}>{label}</button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                        {/* 에러 메시지 */}
+                        {addError && (
+                            <p style={{ color: 'var(--red)', fontSize: '13px', textAlign: 'center', margin: 0 }}>{addError}</p>
+                        )}
 
-                            {/* 시작 요일 (weekly일 때만) */}
-                            {frequency === 'weekly' && (
-                                <div>
-                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>주 시작 요일</label>
-                                    <div style={{ display: 'flex', gap: '6px' }}>
-                                        {DAY_LABELS.map((label, idx) => (
-                                            <button key={idx} onClick={() => setStartDay(idx)}
-                                                style={{
-                                                    flex: 1, padding: '10px 0', fontSize: '13px', fontWeight: 600,
-                                                    borderRadius: '10px',
-                                                    background: startDay === idx ? '#3B82F6' : 'var(--bg)',
-                                                    color: startDay === idx ? '#FFFFFF' : 'var(--text-tertiary)',
-                                                    border: `1px solid ${startDay === idx ? '#3B82F6' : 'var(--border)'}`,
-                                                    cursor: 'pointer', transition: 'all 0.15s',
-                                                }}>{label}</button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* 에러 메시지 */}
-                            {addError && (
-                                <p style={{ color: 'var(--red)', fontSize: '13px', textAlign: 'center', margin: 0 }}>{addError}</p>
-                            )}
-
-                            {/* 버튼 영역 */}
-                            <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
-                                <button onClick={() => { resetAddForm(); setShowInput(false) }} style={{
-                                    flex: 1, padding: '13px', fontSize: '14px', fontWeight: 600,
-                                    background: 'var(--border)', color: 'var(--text-secondary)',
-                                    border: '1px solid var(--border)', borderRadius: '12px', cursor: 'pointer',
-                                }}>취소</button>
-                                <button onClick={handleAddHabit} disabled={addLoading} style={{
-                                    flex: 1, padding: '13px', fontSize: '14px', fontWeight: 600,
-                                    background: addLoading ? 'var(--border)' : '#FF6B35', color: '#FFFFFF',
-                                    border: 'none', borderRadius: '12px',
-                                    cursor: addLoading ? 'not-allowed' : 'pointer',
-                                    transition: 'opacity 0.2s',
-                                }}>{addLoading ? '저장 중...' : '습관 추가'}</button>
-                            </div>
+                        {/* 버튼 영역 */}
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+                            <button onClick={() => { resetAddForm(); setShowInput(false) }} style={{
+                                flex: 1, padding: '13px', fontSize: '14px', fontWeight: 600,
+                                background: 'var(--border)', color: 'var(--text-secondary)',
+                                border: '1px solid var(--border)', borderRadius: '12px', cursor: 'pointer',
+                            }}>취소</button>
+                            <button onClick={handleAddHabit} disabled={addLoading} style={{
+                                flex: 1, padding: '13px', fontSize: '14px', fontWeight: 600,
+                                background: addLoading ? 'var(--border)' : '#FF6B35', color: '#FFFFFF',
+                                border: 'none', borderRadius: '12px',
+                                cursor: addLoading ? 'not-allowed' : 'pointer',
+                                transition: 'opacity 0.2s',
+                            }}>{addLoading ? '저장 중...' : '습관 추가'}</button>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
 
-                {/* ── 빈 상태 ── */}
-                {habits.length === 0 && !showInput && (
-                    <div style={{
-                        textAlign: 'center', padding: '64px 32px',
-                        background: 'var(--surface)', borderRadius: '16px', border: '1px solid var(--border)',
-                    }}>
-                        <div style={{ fontSize: '56px', marginBottom: '16px' }}>🌱</div>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.8 }}>
-                            아직 습관이 없어요.<br />"+ 습관 추가" 버튼으로 시작해보세요!
-                        </p>
-                    </div>
-                )}
-
-                {/* ── 습관 카드 그리드 ── */}
-                <div className="responsive-grid" style={{
-                    display: 'grid',
-                    gap: '16px',
+            {/* ── 빈 상태 ── */}
+            {habits.length === 0 && !showInput && (
+                <div style={{
+                    textAlign: 'center', padding: '64px 32px',
+                    background: 'var(--surface)', borderRadius: '16px', border: '1px solid var(--border)',
                 }}>
-                    {habits.map((habit, idx) => {
-                        const hash = habit._id ? habit._id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : idx
-                        const color = COLORS[hash % COLORS.length]
-                        const count = checkedToday[habit.name] ?? 0
-                        const target = habit.targetCount || 1
-                        const progress = Math.min(count / target, 1)
-                        const done = count >= target
-                        const isLoading = !!loadingCheck[habit._id]
-                        const isExpanded = !!expandedHabit[habit._id]
+                    <div style={{ fontSize: '56px', marginBottom: '16px' }}>🌱</div>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.8 }}>
+                        아직 습관이 없어요.<br />"+ 습관 추가" 버튼으로 시작해보세요!
+                    </p>
+                </div>
+            )}
 
-                        return (
-                            <div key={habit._id}
-                                draggable
-                                onDragStart={(e) => { setDraggedIdx(idx); e.dataTransfer.effectAllowed = 'move'; }}
-                                onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }}
-                                onDrop={(e) => {
-                                    e.preventDefault()
-                                    if (draggedIdx === null || draggedIdx === idx) return
-                                    const newHabits = [...habits]
-                                    // 기존: 드래그한 카드를 빼서(splice) 현재 인덱스에 넣음 (나머지가 밀림)
-                                    // 변경: 두 카드의 위치를 서로 맞바꿈 (swap)
-                                    const temp = newHabits[draggedIdx]
-                                    newHabits[draggedIdx] = newHabits[idx]
-                                    newHabits[idx] = temp
-                                    setHabits(newHabits)
-                                    setDraggedIdx(null)
+            {/* ── 습관 카드 그리드 ── */}
+            <div className="responsive-grid" style={{
+                display: 'grid',
+                gap: '16px',
+            }}>
+                {habits.map((habit, idx) => {
+                    const hash = habit._id ? habit._id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : idx
+                    const color = COLORS[hash % COLORS.length]
+                    const count = checkedToday[habit.name] ?? 0
+                    const target = habit.targetCount || 1
+                    const progress = Math.min(count / target, 1)
+                    const done = count >= target
+                    const isLoading = !!loadingCheck[habit._id]
+                    const isExpanded = !!expandedHabit[habit._id]
 
-                                    fetch('/api/habits/reorder', {
-                                        method: 'PATCH',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({ userId, orderedIds: newHabits.map(h => h._id) })
-                                    }).catch(console.error)
+                    return (
+                        <div key={habit._id}
+                            draggable
+                            onDragStart={(e) => { setDraggedIdx(idx); e.dataTransfer.effectAllowed = 'move'; }}
+                            onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }}
+                            onDrop={(e) => {
+                                e.preventDefault()
+                                if (draggedIdx === null || draggedIdx === idx) return
+                                const newHabits = [...habits]
+                                // 기존: 드래그한 카드를 빼서(splice) 현재 인덱스에 넣음 (나머지가 밀림)
+                                // 변경: 두 카드의 위치를 서로 맞바꿈 (swap)
+                                const temp = newHabits[draggedIdx]
+                                newHabits[draggedIdx] = newHabits[idx]
+                                newHabits[idx] = temp
+                                setHabits(newHabits)
+                                setDraggedIdx(null)
+
+                                fetch('/api/habits/reorder', {
+                                    method: 'PATCH',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ userId, orderedIds: newHabits.map(h => h._id) })
+                                }).catch(console.error)
+                            }}
+                            onDragEnd={() => setDraggedIdx(null)}
+                            style={{ opacity: draggedIdx === idx ? 0.4 : 1, transition: 'opacity 0.2s' }}
+                        >
+                            {/* 습관 카드 */}
+                            <div
+                                onClick={() => !isLoading && !done && handleCheck(habit)}
+                                className={done ? 'habit-card-done' : 'habit-card'}
+                                style={{
+                                    background: done ? `${color}14` : 'var(--surface)',
+                                    border: `1px solid ${done ? color + '44' : 'var(--border)'}`,
+                                    borderRadius: '20px',
+                                    padding: '24px 20px',
+                                    cursor: done ? 'default' : isLoading ? 'wait' : 'pointer',
+                                    transition: 'all 0.25s ease, border-color 0.2s',
+                                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px',
+                                    position: 'relative', overflow: 'hidden',
+                                    userSelect: 'none',
                                 }}
-                                onDragEnd={() => setDraggedIdx(null)}
-                                style={{ opacity: draggedIdx === idx ? 0.4 : 1, transition: 'opacity 0.2s' }}
+                                onMouseEnter={e => {
+                                    if (!done) e.currentTarget.style.borderColor = color + '44';
+                                    e.currentTarget.style.transform = 'translateY(-2px)'
+                                }}
+                                onMouseLeave={e => {
+                                    if (!done) e.currentTarget.style.borderColor = 'var(--border)';
+                                    e.currentTarget.style.transform = 'translateY(0)'
+                                }}
                             >
-                                {/* 습관 카드 */}
-                                <div
-                                    onClick={() => !isLoading && !done && handleCheck(habit)}
-                                    className={done ? 'habit-card-done' : 'habit-card'}
-                                    style={{
-                                        background: done ? `${color}14` : 'var(--surface)',
-                                        border: `1px solid ${done ? color + '44' : 'var(--border)'}`,
-                                        borderRadius: '20px',
-                                        padding: '24px 20px',
-                                        cursor: done ? 'default' : isLoading ? 'wait' : 'pointer',
-                                        transition: 'all 0.25s ease, border-color 0.2s',
-                                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px',
-                                        position: 'relative', overflow: 'hidden',
-                                        userSelect: 'none',
-                                    }}
-                                    onMouseEnter={e => {
-                                        if (!done) e.currentTarget.style.borderColor = color + '44';
-                                        e.currentTarget.style.transform = 'translateY(-2px)'
-                                    }}
-                                    onMouseLeave={e => {
-                                        if (!done) e.currentTarget.style.borderColor = 'var(--border)';
-                                        e.currentTarget.style.transform = 'translateY(0)'
-                                    }}
-                                >
-                                    {/* 링 + 아이콘 */}
-                                    <div style={{ position: 'relative', width: '80px', height: '80px' }}>
-                                        <RingProgress progress={progress} color={color} size={80} strokeWidth={6} />
-                                        <div style={{
-                                            position: 'absolute', inset: 0,
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            fontSize: done ? '28px' : count > 0 ? '16px' : '22px',
-                                            fontWeight: 700,
-                                            color: count > 0 ? color : 'var(--text-tertiary)',
-                                            transition: 'all 0.3s',
-                                        }}>
-                                            {done ? '✓' : count > 0 ? `${count}/${target}` : habit.name[0]?.toUpperCase()}
-                                        </div>
+                                {/* 링 + 아이콘 */}
+                                <div style={{ position: 'relative', width: '80px', height: '80px' }}>
+                                    <RingProgress progress={progress} color={color} size={80} strokeWidth={6} />
+                                    <div style={{
+                                        position: 'absolute', inset: 0,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: done ? '28px' : count > 0 ? '16px' : '22px',
+                                        fontWeight: 700,
+                                        color: count > 0 ? color : 'var(--text-tertiary)',
+                                        transition: 'all 0.3s',
+                                    }}>
+                                        {done ? '✓' : count > 0 ? `${count}/${target}` : habit.name[0]?.toUpperCase()}
                                     </div>
+                                </div>
 
-                                    {/* 이름 */}
-                                    <div style={{ textAlign: 'center' }}>
-                                        <p style={{
-                                            fontSize: '14px', fontWeight: 600,
-                                            color: done ? 'var(--text)' : 'var(--text-secondary)',
-                                            maxWidth: '140px', overflow: 'hidden',
-                                            textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                                        }}>
-                                            {habit.name}
+                                {/* 이름 */}
+                                <div style={{ textAlign: 'center' }}>
+                                    <p style={{
+                                        fontSize: '14px', fontWeight: 600,
+                                        color: done ? 'var(--text)' : 'var(--text-secondary)',
+                                        maxWidth: '140px', overflow: 'hidden',
+                                        textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                                    }}>
+                                        {habit.name}
+                                    </p>
+                                    {done ? (
+                                        <p style={{ fontSize: '12px', color: color, marginTop: '4px', fontWeight: 600 }}>
+                                            {target}회 목표 달성! ✓
                                         </p>
-                                        {done ? (
-                                            <p style={{ fontSize: '12px', color: color, marginTop: '4px', fontWeight: 600 }}>
-                                                {target}회 목표 달성! ✓
-                                            </p>
-                                        ) : count > 0 ? (
-                                            <p style={{ fontSize: '12px', color: color, marginTop: '4px', fontWeight: 500 }}>
-                                                {count} / {target}회 완료
-                                            </p>
-                                        ) : (
-                                            <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginTop: '4px' }}>
-                                                목표 {target}회 · 클릭해서 체크
-                                            </p>
-                                        )}
-                                    </div>
-
-                                    {isLoading && (
-                                        <div style={{
-                                            position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            borderRadius: '20px', fontSize: '22px',
-                                        }}>⏳</div>
+                                    ) : count > 0 ? (
+                                        <p style={{ fontSize: '12px', color: color, marginTop: '4px', fontWeight: 500 }}>
+                                            {count} / {target}회 완료
+                                        </p>
+                                    ) : (
+                                        <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginTop: '4px' }}>
+                                            목표 {target}회 · 클릭해서 체크
+                                        </p>
                                     )}
                                 </div>
 
-                                {/* 카드 하단 액션 */}
-                                <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
-                                    <button onClick={() => toggleStats(habit)} style={{
-                                        flex: 1, padding: '7px 0', fontSize: '12px',
-                                        background: isExpanded ? `${color}22` : 'var(--surface)',
-                                        color: isExpanded ? color : 'var(--text-tertiary)',
-                                        border: `1px solid ${isExpanded ? color + '44' : 'var(--border)'}`,
-                                        borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
-                                    }}>
-                                        {statsLoading[habit._id] ? '⏳' : isExpanded ? '📊 닫기' : '📊 기록'}
-                                    </button>
-                                    <button onClick={() => setDeleteTarget(habit)}
-                                        style={{
-                                            padding: '7px 12px', fontSize: '12px',
-                                            background: 'var(--surface)', color: 'var(--text-tertiary)',
-                                            border: '1px solid var(--border)',
-                                            borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
-                                        }}
-                                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--red-light)'; e.currentTarget.style.color = 'var(--red)'; e.currentTarget.style.borderColor = 'var(--red)' }}
-                                        onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text-tertiary)'; e.currentTarget.style.borderColor = 'var(--border)' }}
-                                    >🗑️</button>
-                                </div>
-
-                                {/* 습관별 히트맵 */}
-                                {isExpanded && (
+                                {isLoading && (
                                     <div style={{
-                                        marginTop: '8px', padding: '14px 16px',
-                                        background: 'var(--surface-hover)', borderRadius: '12px',
-                                        border: `1px solid ${color}33`,
-                                    }}>
-                                        <p style={{ fontSize: '11px', color: color, fontWeight: 600, marginBottom: '10px', letterSpacing: '0.04em' }}>
-                                            최근 1년 · 총 {(habitStats[habit._id] || []).reduce((s, d) => s + d.count, 0)}회
-                                        </p>
-                                        {statsLoading[habit._id] ? (
-                                            <p style={{ color: 'var(--text-tertiary)', fontSize: '12px' }}>불러오는 중...</p>
-                                        ) : (
-                                            <div style={{ overflowX: 'auto' }}>
-                                                <HabitHeatmap data={habitStats[habit._id] || []} compact={true} accentColor={color} />
-                                            </div>
-                                        )}
-                                    </div>
+                                        position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        borderRadius: '20px', fontSize: '22px',
+                                    }}>⏳</div>
                                 )}
                             </div>
-                        )
-                    })}
-                </div>
+
+                            {/* 카드 하단 액션 */}
+                            <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
+                                <button onClick={() => toggleStats(habit)} style={{
+                                    flex: 1, padding: '7px 0', fontSize: '12px',
+                                    background: isExpanded ? `${color}22` : 'var(--surface)',
+                                    color: isExpanded ? color : 'var(--text-tertiary)',
+                                    border: `1px solid ${isExpanded ? color + '44' : 'var(--border)'}`,
+                                    borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
+                                }}>
+                                    {statsLoading[habit._id] ? '⏳' : isExpanded ? '📊 닫기' : '📊 기록'}
+                                </button>
+                                <button onClick={() => setDeleteTarget(habit)}
+                                    style={{
+                                        padding: '7px 12px', fontSize: '12px',
+                                        background: 'var(--surface)', color: 'var(--text-tertiary)',
+                                        border: '1px solid var(--border)',
+                                        borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
+                                    }}
+                                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--red-light)'; e.currentTarget.style.color = 'var(--red)'; e.currentTarget.style.borderColor = 'var(--red)' }}
+                                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text-tertiary)'; e.currentTarget.style.borderColor = 'var(--border)' }}
+                                >🗑️</button>
+                            </div>
+
+                            {/* 습관별 히트맵 */}
+                            {isExpanded && (
+                                <div style={{
+                                    marginTop: '8px', padding: '14px 16px',
+                                    background: 'var(--surface-hover)', borderRadius: '12px',
+                                    border: `1px solid ${color}33`,
+                                }}>
+                                    <p style={{ fontSize: '11px', color: color, fontWeight: 600, marginBottom: '10px', letterSpacing: '0.04em' }}>
+                                        최근 1년 · 총 {(habitStats[habit._id] || []).reduce((s, d) => s + d.count, 0)}회
+                                    </p>
+                                    {statsLoading[habit._id] ? (
+                                        <p style={{ color: 'var(--text-tertiary)', fontSize: '12px' }}>불러오는 중...</p>
+                                    ) : (
+                                        <div style={{ overflowX: 'auto' }}>
+                                            <HabitHeatmap data={habitStats[habit._id] || []} compact={true} accentColor={color} />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )
+                })}
             </div>
-            )
+        </div>
+    )
 }
