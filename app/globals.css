@@ -120,7 +120,7 @@ body {
   }
 
   .mobile-only {
-    display: block !important;
+    display: flex !important;
   }
 
   /* 헤더 탭에서 텍스트 레이블 숨기기 */

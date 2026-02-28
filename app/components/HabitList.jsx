@@ -537,7 +537,7 @@ export default function HabitList({ allHabitData = [], userId }) {
                                     cursor: done ? 'default' : isLoading ? 'wait' : 'pointer',
                                     transition: 'all 0.25s ease, border-color 0.2s',
                                     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px',
-                                    position: 'relative', overflow: 'hidden',
+                                    position: 'relative',
                                     userSelect: 'none',
                                 }}
                                 onMouseEnter={e => {
@@ -596,6 +596,19 @@ export default function HabitList({ allHabitData = [], userId }) {
                                         borderRadius: '20px', fontSize: '22px',
                                     }}>⏳</div>
                                 )}
+                                {/* 모바일 전용 삭제 버튼 (카드 우측 상단) */}
+                                <button
+                                    className="mobile-only"
+                                    onClick={(e) => { e.stopPropagation(); setDeleteTarget(habit) }}
+                                    style={{
+                                        position: 'absolute', top: '12px', right: '12px',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        width: '32px', height: '32px',
+                                        background: 'transparent', border: 'none',
+                                        borderRadius: '8px', cursor: 'pointer',
+                                        fontSize: '16px', color: 'var(--text-tertiary)',
+                                    }}
+                                >🗑️</button>
                             </div>
 
                             {/* 카드 하단 액션 */}
@@ -610,6 +623,7 @@ export default function HabitList({ allHabitData = [], userId }) {
                                     {statsLoading[habit._id] ? '⏳' : isExpanded ? '📊 닫기' : '📊 기록'}
                                 </button>
                                 <button onClick={() => setDeleteTarget(habit)}
+                                    className="desktop-only"
                                     style={{
                                         padding: '7px 12px', fontSize: '12px',
                                         background: 'var(--surface)', color: 'var(--text-tertiary)',
