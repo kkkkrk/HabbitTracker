@@ -138,7 +138,45 @@ export default function StatsView({ userId }) {
 
     const totalChecks = summary.reduce((s, h) => s + h.totalCount, 0)
     const maxStreak = summary.reduce((m, h) => Math.max(m, h.bestStreak), 0)
-    const activeToday = summary.filter(h => h.currentStreak > 0).length
+
+    // 달성률: 최근 30일 중 체크된 습관-일 / 전체 가능한 습관-일
+    const achievementRate = (() => {
+        if (summary.length === 0 || !hasChartData) return 0
+        let checkedDays = 0
+        last30Data.forEach(d => {
+            Object.values(habitStats).forEach(logs => {
+                if ((logs || []).find(l => l.date === d.date && l.count > 0)) checkedDays++
+            })
+        })
+        return Math.round((checkedDays / (summary.length * 30)) * 100)
+    })()
+
+    // 퍼펙트 데이: 모든 습관을 하루에 다 체크한 날 수
+    const perfectDays = (() => {
+        if (summary.length === 0) return 0
+        const allDates = new Set()
+        Object.values(habitStats).forEach(logs => {
+            (logs || []).forEach(({ date }) => allDates.add(date))
+        })
+        let count = 0
+        allDates.forEach(date => {
+            let habitsChecked = 0
+            Object.values(habitStats).forEach(logs => {
+                if ((logs || []).find(l => l.date === date && l.count > 0)) habitsChecked++
+            })
+            if (habitsChecked >= summary.length) count++
+        })
+        return count
+    })()
+
+    // 총 활동일 수: 적어도 하나의 습관을 체크한 날
+    const totalActiveDays = (() => {
+        const activeDateSet = new Set()
+        Object.values(habitStats).forEach(logs => {
+            (logs || []).forEach(({ date, count }) => { if (count > 0) activeDateSet.add(date) })
+        })
+        return activeDateSet.size
+    })()
 
     if (loading) {
         return (
@@ -156,7 +194,9 @@ export default function StatsView({ userId }) {
                 <StatBadge label="총 체크 횟수" value={totalChecks.toLocaleString()} color="#10B981" />
                 <StatBadge label="등록 습관" value={`${summary.length}개`} color="#3B82F6" />
                 <StatBadge label="최고 연속" value={`${maxStreak}일`} color="#F59E0B" />
-                <StatBadge label="스트릭 진행" value={`${activeToday}개`} color="#A855F7" />
+                <StatBadge label="달성률 (30일)" value={`${achievementRate}%`} color="#FF6B35" />
+                <StatBadge label="퍼펙트 데이" value={`${perfectDays}일`} color="#EC4899" />
+                <StatBadge label="총 활동일" value={`${totalActiveDays}일`} color="#A855F7" />
             </div>
 
             {/* ── 그래프 섹션 ── */}
