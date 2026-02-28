@@ -600,7 +600,7 @@ export default function HabitList({ allHabitData = [], userId }) {
 
                             {/* 카드 하단 액션 */}
                             <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
-                                <button onClick={() => toggleStats(habit)} style={{
+                                <button onClick={() => toggleStats(habit)} className="desktop-only" style={{
                                     flex: 1, padding: '7px 0', fontSize: '12px',
                                     background: isExpanded ? `${color}22` : 'var(--surface)',
                                     color: isExpanded ? color : 'var(--text-tertiary)',
