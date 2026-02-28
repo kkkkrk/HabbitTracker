@@ -294,7 +294,7 @@ export default function HabitList({ allHabitData = [], userId }) {
                     </div>
                 )
             })()}
-            <div style={{
+            <div className="desktop-only" style={{
                 background: 'var(--surface)', border: '1px solid var(--border)',
                 borderRadius: '16px', padding: '24px 28px', marginBottom: '32px',
                 overflowX: 'auto', WebkitOverflowScrolling: 'touch', transition: 'background 0.3s'
@@ -623,7 +623,7 @@ export default function HabitList({ allHabitData = [], userId }) {
 
                             {/* 습관별 히트맵 */}
                             {isExpanded && (
-                                <div style={{
+                                <div className="desktop-only" style={{
                                     marginTop: '8px', padding: '14px 16px',
                                     background: 'var(--surface-hover)', borderRadius: '12px',
                                     border: `1px solid ${color}33`,
