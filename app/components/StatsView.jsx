@@ -139,16 +139,21 @@ export default function StatsView({ userId }) {
     const totalChecks = summary.reduce((s, h) => s + h.totalCount, 0)
     const maxStreak = summary.reduce((m, h) => Math.max(m, h.bestStreak), 0)
 
-    // 달성률: 최근 30일 중 체크된 습관-일 / 전체 가능한 습관-일
-    const achievementRate = (() => {
-        if (summary.length === 0 || !hasChartData) return 0
-        let checkedDays = 0
-        last30Data.forEach(d => {
-            Object.values(habitStats).forEach(logs => {
-                if ((logs || []).find(l => l.date === d.date && l.count > 0)) checkedDays++
-            })
+    // 최장 연속 기간: 적어도 하나의 습관이 매일 체크된 가장 긴 연속 일수
+    const longestActivePeriod = (() => {
+        const allDates = new Set()
+        Object.values(habitStats).forEach(logs => {
+            (logs || []).forEach(({ date, count }) => { if (count > 0) allDates.add(date) })
         })
-        return Math.round((checkedDays / (summary.length * 30)) * 100)
+        if (allDates.size === 0) return 0
+        const sorted = [...allDates].sort()
+        let max = 1, cur = 1
+        for (let i = 1; i < sorted.length; i++) {
+            const diff = (new Date(sorted[i]) - new Date(sorted[i - 1])) / 86400000
+            if (diff === 1) { cur++; max = Math.max(max, cur) }
+            else cur = 1
+        }
+        return max
     })()
 
     // 퍼펙트 데이: 모든 습관을 하루에 다 체크한 날 수
@@ -194,7 +199,7 @@ export default function StatsView({ userId }) {
                 <StatBadge label="총 체크 횟수" value={totalChecks.toLocaleString()} color="#10B981" />
                 <StatBadge label="등록 습관" value={`${summary.length}개`} color="#3B82F6" />
                 <StatBadge label="최고 연속" value={`${maxStreak}일`} color="#F59E0B" />
-                <StatBadge label="달성률 (30일)" value={`${achievementRate}%`} color="#FF6B35" />
+                <StatBadge label="최장 연속 기간" value={`${longestActivePeriod}일`} color="#FF6B35" />
                 <StatBadge label="퍼펙트 데이" value={`${perfectDays}일`} color="#EC4899" />
                 <StatBadge label="총 활동일" value={`${totalActiveDays}일`} color="#A855F7" />
             </div>
