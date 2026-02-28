@@ -14,6 +14,13 @@ export const metadata = {
   description: "매일 습관을 기록하고 유지하세요",
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="ko" suppressHydrationWarning>

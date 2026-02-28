@@ -32,7 +32,7 @@ export default function MainLayout({ allHabitData, todayLabel, userId, userName,
                     <img src="/logo.png" alt="Logo" style={{
                         width: '24px', height: '24px', borderRadius: '6px'
                     }} />
-                    <span style={{ fontSize: '17px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.3px' }}>
+                    <span className="logo-text" style={{ fontSize: '17px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.3px' }}>
                         Habit Tracker
                     </span>
                 </div>
@@ -45,6 +45,7 @@ export default function MainLayout({ allHabitData, todayLabel, userId, userName,
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
+                                className="tab-btn"
                                 style={{
                                     display: 'flex', alignItems: 'center', gap: '6px',
                                     padding: '7px 16px', borderRadius: '9px',
@@ -58,7 +59,7 @@ export default function MainLayout({ allHabitData, todayLabel, userId, userName,
                                 onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = 'var(--text-tertiary)' }}
                             >
                                 <span>{icon}</span>
-                                {label}
+                                <span className="tab-label">{label}</span>
                             </button>
                         )
                     })}

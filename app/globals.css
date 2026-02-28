@@ -85,12 +85,12 @@ body {
 
 @media (max-width: 768px) {
   .responsive-header {
-    padding: 0 20px;
-    height: 56px;
+    padding: 0 16px;
+    height: 52px;
   }
 
   .responsive-main {
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
 
   .responsive-grid {
@@ -122,5 +122,20 @@ body {
 
   .mobile-only {
     display: block !important;
+  }
+
+  /* 헤더 탭에서 텍스트 레이블 숨기기 */
+  .tab-label {
+    display: none !important;
+  }
+
+  /* 헤더 탭 버튼 간격 줄이기 */
+  .tab-btn {
+    padding: 7px 10px !important;
+  }
+
+  /* 헤더 로고 텍스트 숨기기 */
+  .logo-text {
+    display: none !important;
   }
 }
