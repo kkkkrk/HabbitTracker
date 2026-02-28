@@ -10,8 +10,38 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Habit Tracker",
-  description: "매일 습관을 기록하고 유지하세요",
+  title: "Habit Tracker - 나의 매일 습관 기록장",
+  description: "매일 반복되는 습관을 기록하고 한 눈에 통계로 확인하세요.",
+  keywords: ["습관", "해빗 트래커", "목표", "루틴", "기록", "통계", "habit tracker", "routine"],
+  authors: [{ name: "Habit Tracker" }],
+  creator: "Habit Tracker",
+  openGraph: {
+    title: "Habit Tracker",
+    description: "매일 반복되는 습관을 기록하고 한 눈에 확인하세요.",
+    url: "https://habbit-tracker-red.vercel.app",
+    siteName: "Habit Tracker",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 600,
+        alt: "Habit Tracker Logo",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Habit Tracker",
+    description: "매일 반복되는 습관을 기록하고 한 눈에 확인하세요.",
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export const viewport = {
