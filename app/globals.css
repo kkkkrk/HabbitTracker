@@ -79,7 +79,7 @@ body {
 /* .desktop-only is hidden via media query below, no base style needed */
 
 .mobile-only {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 768px) {
