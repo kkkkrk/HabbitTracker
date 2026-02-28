@@ -59,6 +59,7 @@ body {
 }
 
 .responsive-stats-grid {
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -75,9 +76,7 @@ body {
   box-shadow: 0 32px 64px rgba(0, 0, 0, 0.1);
 }
 
-.desktop-only {
-  display: block;
-}
+/* .desktop-only is hidden via media query below, no base style needed */
 
 .mobile-only {
   display: none;
