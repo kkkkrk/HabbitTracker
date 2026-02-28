@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 :root {
   /* 다크모드 (기본) */
   --bg: #0D0D0F;
