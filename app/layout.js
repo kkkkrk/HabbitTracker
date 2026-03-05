@@ -43,9 +43,9 @@ export const metadata = {
     apple: "/logo.png",
   },
   verification: {
-    google: "VnKEuLXCf_bn1n2AgWs1dEiwEus3NhGXUg460e2LaSs",
+    google: "cjtG0EKVLMzCjmKMCMXaR8iCb5lMC20Hnf9jrg7qVXE",
     other: {
-      "naver-site-verification": ["ff789c99a3f7a3b782dc5dc921742aba17c02fbf"],
+      "naver-site-verification": ["64de38754a72e075b000db785e0803fcf9340671"],
     },
   },
 };
